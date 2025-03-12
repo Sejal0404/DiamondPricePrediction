@@ -4,3 +4,7 @@ Version: 0.0.1
 Summary: DiamondPricePrediction
 Author: Sejal
 Author-email: sejalofficial1507@gmail.com
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: seaborn
+Requires-Dist: flask
