@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        /* Your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>D◆amond Pr◆ce<br> Pred◆ct◆on</h1> 
+    <div style="display: flex;">
+        <form id="diamondForm">
+            <div class="form-group">
+                <label for="carat">Carat:</label>
+                <input type="text" id="carat" name="carat" placeholder="Enter carat value (float)">
+            </div>
+
+            <div class="form-group">
+                <label for="depth">Depth:</label>
+                <input type="text" id="depth" name="depth" placeholder="Enter depth value (float)">
+            </div>
+
+            <div class="form-group">  
+                <label for="table">Table:</label>
+                <input type="text" id="table" name="table" placeholder="Enter table value (float)">
+            </div>
+            
+            <div class="form-group">
+                <label for="x">x:</label>
+                <input type="text" id="x" name="x" placeholder="Enter x value (float)">
+            </div>
+
+            <div class="form-group">
+                <label for="y">y:</label>
+                <input type="text" id="y" name="y" placeholder="Enter y value (float)">
+            </div>
+
+            <div class="form-group">
+                <label for="z">z:</label>
+                <input type="text" id="z" name="z" placeholder="Enter z value (float)">
+            </div>         
+
+            <div class="form-group">
+                <label for="cut">Cut:</label>
+                <select id="cut" name="cut">
+                    <option value="Fair">Fair</option>
+                    <option value="Good">Good</option>
+                    <option value="Very Good">Very Good</option>
+                    <option value="Premium">Premium</option>
+                    <option value="Ideal">Ideal</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="color">Color:</label>
+                <select id="color" name="color">
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="H">H</option>
+                    <option value="I">I</option>
+                    <option value="J">J</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="clarity">Clarity:</label>
+                <select id="clarity" name="clarity">
+                    <option value="I1">I1</option>
+                    <option value="SI2">SI2</option>
+                    <option value="SI1">SI1</option>
+                    <option value="VS2">VS2</option>
+                    <option value="VS1">VS1</option>
+                    <option value="VVS2">VVS2</option>
+                    <option value="VVS1">VVS1</option>
+                    <option value="IF">IF</option>
+                </select>
+            </div>
+
+            <div style="clear:both;"></div>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="result-container">
+            <h2 id="result-text"></h2>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission
+        document.getElementById('diamondForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
+
+            // Collect form data
+            const formData = {
+                carat: document.getElementById('carat').value,
+                depth: document.getElementById('depth').value,
+                table: document.getElementById('table').value,
+                x: document.getElementById('x').value,
+                y: document.getElementById('y').value,
+                z: document.getElementById('z').value,
+                cut: document.getElementById('cut').value,
+                color: document.getElementById('color').value,
+                clarity: document.getElementById('clarity').value,
+            };
+
+            // Send the data to the server using fetch
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    // Display error message
+                    document.getElementById('result-text').innerText = `Error: ${data.error}`;
+                } else {
+                    // Display the predicted price
+                    document.getElementById('result-text').innerText = `Predicted Price: $${data.predictedPrice}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result-text').innerText = 'An error occurred. Please try again.';
+            });
+        });
+    </script>
+</body>
+</html>
